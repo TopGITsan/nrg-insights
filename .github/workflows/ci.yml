@@ -28,7 +28,7 @@ jobs:
         run: npm i
 
       - name: Build Angular App
-        run: npx nx build
+        run: npm run build
   test:
     runs-on: ubuntu-latest
 
@@ -46,5 +46,21 @@ jobs:
       - name: Install Dependencies
         run: npm i
 
-      - name: Test Angular App
-        run: npx nx test
+      - name: Test projects
+        run: npm run test
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Install Dependencies
+        run: npm i
+
+      - name: Lint projects
+        run: npm run lint
