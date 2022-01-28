@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "projects": {}
+  "projects": {
+    "nrg-insights-app": "apps/nrg-insights-app",
+    "nrg-insights-app-e2e": "apps/nrg-insights-app-e2e"
+  }
 }
