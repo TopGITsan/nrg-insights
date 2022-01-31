@@ -47,7 +47,8 @@
       "linter": "eslint",
       "unitTestRunner": "jest",
       "inlineTemplate": true,
-      "strict": true
+      "strict": true,
+      "prefix": "nrg"
     },
     "@schematics/angular:component": {
       "changeDetection": "OnPush",
