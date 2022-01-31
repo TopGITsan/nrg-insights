@@ -1,5 +1,13 @@
 name: Energy Insights CI
 
+env:
+  node-version:14.x
+  NODE_OPTIONS: --max_old_space=6144
+  # for NX Cloud
+  #NX_BRANCH: ${{ github.event.number }}
+  #NX_RUN_GROUP: $ {{ github.run_id }}
+
+
 on:
   push:
     branches:
@@ -16,16 +24,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Node.js 14.x
+      - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: ${{ env.node-version }}
 
       #- name: Install PNPM, faster
       #  run: npm install --global pnpm
 
       - name: Install Dependencies
-        run: npm i
+        run: npm ci
 
       - name: Build Angular App
         run: npm run build
@@ -35,32 +43,33 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Node.js 14.x
+      - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: ${{ env.node-version }}
 
       #- name: Install PNPM, faster
       #  run: npm install --global pnpm
 
       - name: Install Dependencies
-        run: npm i
+        run: npm ci
 
       - name: Test projects
         run: npm run test
   lint:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Node.js 14.x
+      - name: Set up Node.js ${{ env.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: ${{ env.node-version }}
 
       - name: Install Dependencies
-        run: npm i
+        run: npm ci
 
       - name: Lint projects
         run: npm run lint
