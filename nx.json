@@ -46,7 +46,6 @@
     "@nrwl/angular:library": {
       "linter": "eslint",
       "unitTestRunner": "jest",
-      "inlineTemplate": true,
       "strict": true,
       "prefix": "nrg"
     },
