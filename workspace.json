@@ -4,6 +4,7 @@
     "nrg-insights-app": "apps/nrg-insights-app",
     "nrg-insights-app-e2e": "apps/nrg-insights-app-e2e",
     "root-assets": "libs/root/assets",
+    "root-environments": "libs/root/environments",
     "root-styles": "libs/root/styles"
   }
 }
