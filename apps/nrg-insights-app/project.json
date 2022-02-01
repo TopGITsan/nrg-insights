@@ -15,10 +15,18 @@
         "tsConfig": "apps/nrg-insights-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/nrg-insights-app/src/favicon.ico",
-          "apps/nrg-insights-app/src/assets"
+          {
+            "glob": "favicon.ico",
+            "input": "libs/root/assets/src",
+            "output": "./"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/root/assets/src/assets",
+            "output": "assets"
+          }
         ],
-        "styles": ["apps/nrg-insights-app/src/styles.scss"],
+        "styles": ["libs/root/styles/src/index.scss"],
         "scripts": []
       },
       "configurations": {
@@ -37,8 +45,8 @@
           ],
           "fileReplacements": [
             {
-              "replace": "apps/nrg-insights-app/src/environments/environment.ts",
-              "with": "apps/nrg-insights-app/src/environments/environment.prod.ts"
+              "replace": "libs/root/environments/src/lib/environment.ts",
+              "with": "libs/root/environments/src/lib/environment.prod.ts"
             }
           ],
           "outputHashing": "all"
@@ -90,5 +98,6 @@
       }
     }
   },
-  "tags": ["type:app"]
+  "tags": ["type:app"],
+  "implicitDependencies": ["root-assets","root-styles"]
 }

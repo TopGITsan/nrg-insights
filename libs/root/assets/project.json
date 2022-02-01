@@ -1,0 +1,7 @@
+{
+  "projectType": "library",
+  "root": "libs/root/assets",
+  "sourceRoot": "libs/root/assets/src",
+  "targets": {},
+  "tags": ["project:nrg", "scope:root", "type:assets"]
+}
