@@ -1,8 +1,8 @@
 name: Energy Insights CI
 
 env:
-  node-version:14.x
-  NODE_OPTIONS: --max_old_space=6144
+  node-version: 14.x
+  #NODE_OPTIONS: --max_old_space=6144 is not allowed in NODE_OPTIONS (on GitHub)
   # for NX Cloud
   #NX_BRANCH: ${{ github.event.number }}
   #NX_RUN_GROUP: $ {{ github.run_id }}
