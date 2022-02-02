@@ -4,7 +4,7 @@ import { combineLatest, Observable, switchMap, timer } from "rxjs";
 import { Co2Http } from "../http/co2-http.service";
 import { CO2EmissionsRecord, CO2EmissionsRecords } from "../http/co2-record.interface";
 
-export interface Co2State {
+interface Co2State {
   readonly records: readonly CO2EmissionsRecord[]
 }
 
@@ -24,7 +24,7 @@ export class Co2Store extends ComponentStore<Co2State>{
 
     // or
     // this.setState(initialState)
-
+    // initialize the effect
     this.loadRecordsEveryMinute({ from: new Date(), to: new Date() })
   }
 
