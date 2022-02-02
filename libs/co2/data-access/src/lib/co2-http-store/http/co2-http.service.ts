@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { mergeMap, Observable, of, throwError } from 'rxjs';
-import { CO2EmissionsRecord } from './co2-record.interface';
+import { CO2EmissionsRecord, CO2EmissionsRecords } from './co2-record.interface';
 import { HttpClient } from '@angular/common/http';
 import { CkanResponseInterface } from './ckan-response.interface';
 import { CkanErrorResponseInterface } from './ckan-error-response.interface';
@@ -11,7 +11,7 @@ import { nrgDataServiceEndpoint } from './nrg-data-service-endpoint';
 })
 export class Co2Http {
   constructor(private http: HttpClient) {}
-  get(): Observable<readonly CO2EmissionsRecord[]> {
+  get(): Observable<CO2EmissionsRecords> {
     // todo : query only 2 days
     const sql = `SELECT
     "Minutes5UTC" AS "minutes5UTC",
