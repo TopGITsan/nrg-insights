@@ -1,15 +1,13 @@
 import { Co2Store } from './co2-store.service';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { first, firstValueFrom, of, skip, take } from 'rxjs';
+import { firstValueFrom, Observable, of, skip, take, throwError } from 'rxjs';
 import { Co2Http } from '../http/co2-http.service';
 import { CO2EmissionsRecords } from '../http/co2-record.interface';
 
 describe(Co2Store.name, () => {
-  function setup({
-    records = [],
-  }: {
-    readonly records?: CO2EmissionsRecords;
+  function setup({ httpGetSpy = jest.fn().mockReturnValue(of([])) } : {
+    readonly httpGetSpy?: jest.Mock<Observable<CO2EmissionsRecords>,[]>
   } = {}) {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -17,11 +15,11 @@ describe(Co2Store.name, () => {
     });
     // put an spy on the 'get' method before the store is created and mock it's return value
     const http = TestBed.inject(Co2Http);
-    const httpGetSpy = jest.spyOn(http, 'get').mockReturnValue(of(records));
+    http.get = httpGetSpy;
+    // const httpGetSpy = jest.spyOn(http, 'get').mockReturnValue(of(records));
     const store = TestBed.inject(Co2Store);
 
     return {
-      httpGetSpy,
       store,
     };
   }
@@ -49,8 +47,9 @@ describe(Co2Store.name, () => {
           priceArea: 'DK2',
         },
       ];
+      const httpGetSpy = jest.fn().mockReturnValue(of(expectedRecords));
 
-      const { store, httpGetSpy } = setup({ records: expectedRecords });
+      const { store } = setup({httpGetSpy});
       // act
       const actualRecords = await firstValueFrom(
         store.records$.pipe(skip(1), take(1))
@@ -60,5 +59,23 @@ describe(Co2Store.name, () => {
       expect(httpGetSpy).toHaveBeenCalledTimes(1);
       expect(actualRecords).toEqual(expectedRecords);
     });
+
+    it('clears records on error response from the CO2 emissions API', async () => {
+      // arrange
+      const expectedRecords: CO2EmissionsRecords = [];
+
+      const httpGetSpy = jest.fn().mockReturnValue(throwError(()=> new Error('CKAN Erro')))
+      const { store } = setup({ httpGetSpy });
+      // act
+      const actualRecords = await firstValueFrom(
+        store.records$.pipe(skip(1), take(1))
+      );
+
+      // assert
+      expect(httpGetSpy).toHaveBeenCalledTimes(1);
+      expect(actualRecords).toEqual(expectedRecords);
+    });
+
+
   });
 });
