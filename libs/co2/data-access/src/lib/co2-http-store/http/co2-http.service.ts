@@ -13,6 +13,7 @@ export class Co2Http {
   constructor(private http: HttpClient) {}
   get(): Observable<CO2EmissionsRecords> {
     // todo : query only 2 days
+    // todo : remove new lines
     const sql = `SELECT
     "Minutes5UTC" AS "minutes5UTC",
     "PriceArea" AS "priceArea",
