@@ -25,7 +25,7 @@ describe(Co2Http.name, () => {
   let http: Co2Http;
   let controller: HttpTestingController;
 
-  it('maps to response to records on success', async () => {
+  it('maps response to records on success', async () => {
     // arrange
     const records = [
       {
