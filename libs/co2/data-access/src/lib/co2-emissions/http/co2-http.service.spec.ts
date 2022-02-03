@@ -44,7 +44,7 @@ describe(Co2Http.name, () => {
       success: true,
     };
     // act
-    const whenResult = firstValueFrom(http.get());
+    const whenResult = firstValueFrom(http.get({ from: new Date(), to: new Date() }));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
@@ -84,7 +84,7 @@ describe(Co2Http.name, () => {
       success: true,
     };
     // act
-    const whenResult = firstValueFrom(http.get());
+    const whenResult = firstValueFrom(http.get({ from: new Date(), to: new Date()}));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
@@ -109,7 +109,7 @@ describe(Co2Http.name, () => {
       success: false,
     };
     // act
-    const whenErrorResponse = firstValueFrom(http.get());
+    const whenErrorResponse = firstValueFrom(http.get({ from: new Date(), to: new Date() }));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>

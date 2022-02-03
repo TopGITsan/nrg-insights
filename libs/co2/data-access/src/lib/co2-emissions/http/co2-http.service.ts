@@ -5,22 +5,18 @@ import { HttpClient } from '@angular/common/http';
 import { CkanResponseInterface } from './ckan-response.interface';
 import { CkanErrorResponseInterface } from './ckan-error-response.interface';
 import { nrgDataServiceEndpoint } from './nrg-data-service-endpoint';
+import { DateQuery } from '../date-query';
+import { createCo2EmissionsSql } from './create-co2-emissions-sql';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Co2Http {
   constructor(private http: HttpClient) {}
-  get(): Observable<CO2EmissionsRecords> {
+  get(dateQuery: DateQuery): Observable<CO2EmissionsRecords> {
     // todo : query only 2 days
     // todo : remove new lines
-    const sql = `SELECT
-    "Minutes5UTC" AS "minutes5UTC",
-    "PriceArea" AS "priceArea",
-    "CO2Emissions" AS "co2Emissions"
-    FROM "co2emisprog"
-    -- TODO WHERE Clause
-    ORDERBY "Minutes5UTC" ASC LIMIT 100;`;
+    const sql = createCo2EmissionsSql(dateQuery);
     return this.http
       .get<
         CkanResponseInterface<CO2EmissionsRecord> | CkanErrorResponseInterface

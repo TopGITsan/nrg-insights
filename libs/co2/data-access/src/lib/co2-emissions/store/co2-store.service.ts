@@ -25,9 +25,9 @@ export class Co2Store extends ComponentStore<Co2State>{
     this.loadRecordsEveryMinute({ from: new Date(), to: new Date() })
   }
 
-  private loadRecordsEveryMinute = this.effect<DateQuery>(queryFilter$ =>
-    combineLatest([queryFilter$, timer(0, 60 * 1000)]).pipe(
-      switchMap(queryFilter => this.co2http.get().pipe(
+  private loadRecordsEveryMinute = this.effect<DateQuery>(dateQuery$ =>
+    combineLatest([dateQuery$, timer(0, 60 * 1000)]).pipe(
+      switchMap(([dateQuery]) => this.co2http.get(dateQuery).pipe(
         tapResponse(
           records => this.updateRecords(records),
           // or using partial updater => no central updater as updateRecords
