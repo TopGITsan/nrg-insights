@@ -7,6 +7,7 @@ import { CkanErrorResponseInterface } from './ckan-error-response.interface';
 import { nrgDataServiceEndpoint } from './nrg-data-service-endpoint';
 import { DateQuery } from '../date-query';
 import { createCo2EmissionsSql } from './create-co2-emissions-sql';
+import { trimSql } from './trim-sql';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +15,8 @@ import { createCo2EmissionsSql } from './create-co2-emissions-sql';
 export class Co2Http {
   constructor(private http: HttpClient) {}
   get(dateQuery: DateQuery): Observable<CO2EmissionsRecords> {
-    // todo : query only 2 days
     // todo : remove new lines
-    const sql = createCo2EmissionsSql(dateQuery);
+    const sql = trimSql(createCo2EmissionsSql(dateQuery));
     return this.http
       .get<
         CkanResponseInterface<CO2EmissionsRecord> | CkanErrorResponseInterface

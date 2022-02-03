@@ -1,6 +1,6 @@
 import { DateQuery } from '../date-query';
 
-export function createCo2EmissionsSql(dateQuery: DateQuery) {
+export function createCo2EmissionsSql(dateQuery: DateQuery): string {
   return `SELECT
   "Minutes5UTC" AS "minutes5UTC",
   "PriceArea" AS "priceArea",
