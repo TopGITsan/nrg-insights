@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ComponentStore, tapResponse } from "@ngrx/component-store";
 import { combineLatest, Observable, switchMap, timer } from "rxjs";
+import { DateQuery } from "../date-query";
 import { Co2Http } from "../http/co2-http.service";
 import { CO2EmissionsRecord, CO2EmissionsRecords } from "../http/co2-record.interface";
 
@@ -8,10 +9,6 @@ interface Co2State {
   readonly records: readonly CO2EmissionsRecord[]
 }
 
-interface QueryFilter {
-  readonly from: Date;
-  readonly to: Date;
-}
 
 @Injectable()
 export class Co2Store extends ComponentStore<Co2State>{
@@ -28,7 +25,7 @@ export class Co2Store extends ComponentStore<Co2State>{
     this.loadRecordsEveryMinute({ from: new Date(), to: new Date() })
   }
 
-  private loadRecordsEveryMinute = this.effect<QueryFilter>(queryFilter$ =>
+  private loadRecordsEveryMinute = this.effect<DateQuery>(queryFilter$ =>
     combineLatest([queryFilter$, timer(0, 60 * 1000)]).pipe(
       switchMap(queryFilter => this.co2http.get().pipe(
         tapResponse(
