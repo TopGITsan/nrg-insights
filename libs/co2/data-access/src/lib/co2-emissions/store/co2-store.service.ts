@@ -56,7 +56,7 @@ export class Co2Store extends ComponentStore<Co2State> {
   );
 
   private updateRecords = this.updater<CO2EmissionsRecords>(
-    (state: Co2State, records) => {
+    (state: Co2State, records): Co2State => {
       return { ...state, records };
     }
   );
