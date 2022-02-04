@@ -24,7 +24,9 @@ export class Co2Store extends ComponentStore<Co2State> {
       debounce: true,
     }
   );
-  private danishToday$: Observable<DateTime> = this.select(state=> state.danishToday);
+  private danishToday$: Observable<DateTime> = this.select(
+    state => state.danishToday
+  );
   // private interval$: Observable<Interval> = this.select(
   //   state => state.interval
   // );

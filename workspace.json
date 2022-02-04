@@ -6,6 +6,7 @@
     "nrg-insights-app-e2e": "apps/nrg-insights-app-e2e",
     "root-assets": "libs/root/assets",
     "root-environments": "libs/root/environments",
-    "root-styles": "libs/root/styles"
+    "root-styles": "libs/root/styles",
+    "shared-util-date-time": "libs/shared/util-date-time"
   }
 }
