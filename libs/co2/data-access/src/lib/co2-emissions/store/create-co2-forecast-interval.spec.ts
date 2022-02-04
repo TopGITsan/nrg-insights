@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { createCo2ForecastInterval } from "./create-co2-forecast-date-query";
+import { createCo2ForecastInterval } from "./create-co2-forecast-interval";
 
 describe(createCo2ForecastInterval.name,()=>{
   it('returns the start of today as the date query from',()=>{

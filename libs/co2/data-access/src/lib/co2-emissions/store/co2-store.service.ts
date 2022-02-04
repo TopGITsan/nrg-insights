@@ -7,7 +7,7 @@ import {
   CO2EmissionsRecord,
   CO2EmissionsRecords,
 } from '../http/co2-record.interface';
-import { createCo2ForecastInterval } from './create-co2-forecast-date-query';
+import { createCo2ForecastInterval } from './create-co2-forecast-interval';
 
 interface Co2State {
   readonly interval: Interval;
