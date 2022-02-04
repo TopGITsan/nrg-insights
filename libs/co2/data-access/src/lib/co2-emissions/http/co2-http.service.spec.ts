@@ -1,13 +1,16 @@
-import { Co2Http } from "./co2-http.service";
-import { TestBed } from "@angular/core/testing";
-import { firstValueFrom } from "rxjs";
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
-import { nrgDataServiceEndpoint } from "./nrg-data-service-endpoint";
-import { CO2EmissionsRecord } from "./co2-record.interface";
-import { CkanErrorResponseInterface } from "./ckan-error-response.interface";
-import { DateTime, Interval } from "luxon";
+import { Co2Http } from './co2-http.service';
+import { TestBed } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import { nrgDataServiceEndpoint } from './nrg-data-service-endpoint';
+import { CO2EmissionsRecord } from './co2-record.interface';
+import { CkanErrorResponseInterface } from './ckan-error-response.interface';
+import { DateTime, Interval } from 'luxon';
 
-
+const dummyInterval = Interval.fromDateTimes(DateTime.now(), DateTime.now());
 
 describe(Co2Http.name, () => {
   beforeEach(() => {
@@ -44,7 +47,7 @@ describe(Co2Http.name, () => {
       success: true,
     };
     // act
-    const whenResult = firstValueFrom(http.get(Interval.fromDateTimes(DateTime.now(),DateTime.now())));
+    const whenResult = firstValueFrom(http.get(dummyInterval));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
@@ -84,7 +87,7 @@ describe(Co2Http.name, () => {
       success: true,
     };
     // act
-    const whenResult = firstValueFrom(http.get(Interval.fromDateTimes(DateTime.now(),DateTime.now())));
+    const whenResult = firstValueFrom(http.get(dummyInterval));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
@@ -109,7 +112,7 @@ describe(Co2Http.name, () => {
       success: false,
     };
     // act
-    const whenErrorResponse = firstValueFrom(http.get(Interval.fromDateTimes(DateTime.now(),DateTime.now())));
+    const whenErrorResponse = firstValueFrom(http.get(dummyInterval));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
