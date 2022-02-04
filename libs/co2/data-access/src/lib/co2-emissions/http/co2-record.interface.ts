@@ -4,5 +4,4 @@ export interface CO2EmissionsRecord {
   readonly co2Emissions: number;
 }
 
-
 export type CO2EmissionsRecords = readonly CO2EmissionsRecord[];

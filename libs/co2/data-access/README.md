@@ -4,5 +4,5 @@
 
 - Local state management
 
-- test lib: 
-  √ npx nx run co2-data-access:test --verbose
+- to test the library run:
+  `npx nx run co2-data-access:test --verbose`

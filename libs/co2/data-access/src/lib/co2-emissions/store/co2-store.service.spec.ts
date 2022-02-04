@@ -6,8 +6,10 @@ import { Co2Http } from '../http/co2-http.service';
 import { CO2EmissionsRecords } from '../http/co2-record.interface';
 
 describe(Co2Store.name, () => {
-  function setup({ httpGetSpy = jest.fn().mockReturnValue(of([])) } : {
-    readonly httpGetSpy?: jest.Mock<Observable<CO2EmissionsRecords>,[]>
+  function setup({
+    httpGetSpy = jest.fn().mockReturnValue(of([])),
+  }: {
+    readonly httpGetSpy?: jest.Mock<Observable<CO2EmissionsRecords>, []>;
   } = {}) {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -49,7 +51,7 @@ describe(Co2Store.name, () => {
       ];
       const httpGetSpy = jest.fn().mockReturnValue(of(expectedRecords));
 
-      const { store } = setup({httpGetSpy});
+      const { store } = setup({ httpGetSpy });
       // act
       const actualRecords = await firstValueFrom(
         store.records$.pipe(skip(1), take(1))
@@ -64,7 +66,9 @@ describe(Co2Store.name, () => {
       // arrange
       const expectedRecords: CO2EmissionsRecords = [];
 
-      const httpGetSpy = jest.fn().mockReturnValue(throwError(()=> new Error('CKAN Erro')))
+      const httpGetSpy = jest
+        .fn()
+        .mockReturnValue(throwError(() => new Error('CKAN Erro')));
       const { store } = setup({ httpGetSpy });
       // act
       const actualRecords = await firstValueFrom(
@@ -75,7 +79,5 @@ describe(Co2Store.name, () => {
       expect(httpGetSpy).toHaveBeenCalledTimes(1);
       expect(actualRecords).toEqual(expectedRecords);
     });
-
-
   });
 });

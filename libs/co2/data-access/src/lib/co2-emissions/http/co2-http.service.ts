@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { mergeMap, Observable, of, throwError } from 'rxjs';
-import { CO2EmissionsRecord, CO2EmissionsRecords } from './co2-record.interface';
+import {
+  CO2EmissionsRecord,
+  CO2EmissionsRecords,
+} from './co2-record.interface';
 import { HttpClient } from '@angular/common/http';
 import { CkanResponseInterface } from './ckan-response.interface';
 import { CkanErrorResponseInterface } from './ckan-error-response.interface';
@@ -24,7 +27,12 @@ export class Co2Http {
       .pipe(
         mergeMap(response =>
           response.success
-            ? of(response.result.records.map(v=>({...v,minutes5UTC: new Date(v.minutes5UTC)})))
+            ? of(
+                response.result.records.map(v => ({
+                  ...v,
+                  minutes5UTC: new Date(v.minutes5UTC),
+                }))
+              )
             : throwError(() => new Error('CKAN Error'))
         )
       );

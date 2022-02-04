@@ -5,14 +5,14 @@ describe(trimSql.name, () => {
     FROM table;`;
     const trimmedSql = trimSql(rawSql);
 
-    expect(trimmedSql).toBe("SELECT * FROM table;");
+    expect(trimmedSql).toBe('SELECT * FROM table;');
   });
 
-  it('relpaces new line with space char',()=>{
+  it('relpaces new line with space char', () => {
     const text = 'hello\nworld';
 
     const trimmedText = trimSql(text);
 
-    expect(trimmedText).toBe("hello world");
-  })
+    expect(trimmedText).toBe('hello world');
+  });
 });
