@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
+import { DateTime, Interval } from 'luxon';
 import { combineLatest, Observable, switchMap, timer } from 'rxjs';
-import { DateQuery } from '../date-query';
 import { Co2Http } from '../http/co2-http.service';
 import {
   CO2EmissionsRecord,
@@ -10,7 +10,7 @@ import {
 import { createCo2ForecastDateQuery } from './create-co2-forecast-date-query';
 
 interface Co2State {
-  readonly dateQuery: DateQuery;
+  readonly interval: Interval;
   readonly records: readonly CO2EmissionsRecord[];
 }
 
@@ -22,23 +22,23 @@ export class Co2Store extends ComponentStore<Co2State> {
       debounce: true,
     }
   );
-  private dateQuery$: Observable<DateQuery> = this.select(
-    state => state.dateQuery
+  private interval$: Observable<Interval> = this.select(
+    state => state.interval
   );
 
   constructor(private co2http: Co2Http) {
-    super(createInitialState(new Date()));
+    super(createInitialState(DateTime.now()));
 
     // or
     // this.setState(initialState)
     // initialize the effect
-    this.loadRecordsEveryMinute(this.dateQuery$);
+    this.loadRecordsEveryMinute(this.interval$);
   }
 
-  private loadRecordsEveryMinute = this.effect<DateQuery>(dateQuery$ =>
-    combineLatest([dateQuery$, timer(0, 60 * 1000)]).pipe(
-      switchMap(([dateQuery]) =>
-        this.co2http.get(dateQuery).pipe(
+  private loadRecordsEveryMinute = this.effect<Interval>(interval$ =>
+    combineLatest([interval$, timer(0, 60 * 1000)]).pipe(
+      switchMap(([interval]) =>
+        this.co2http.get(interval).pipe(
           tapResponse(
             records => this.updateRecords(records),
             // or using partial updater => no central updater as updateRecords
@@ -57,9 +57,9 @@ export class Co2Store extends ComponentStore<Co2State> {
   );
 }
 
-function createInitialState(now: Date): Co2State {
+function createInitialState(now: DateTime): Co2State {
   return {
-    dateQuery: createCo2ForecastDateQuery(now),
+    interval: createCo2ForecastDateQuery(now),
     records: [],
   };
 }

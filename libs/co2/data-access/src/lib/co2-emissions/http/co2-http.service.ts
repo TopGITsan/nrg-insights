@@ -5,18 +5,18 @@ import { HttpClient } from '@angular/common/http';
 import { CkanResponseInterface } from './ckan-response.interface';
 import { CkanErrorResponseInterface } from './ckan-error-response.interface';
 import { nrgDataServiceEndpoint } from './nrg-data-service-endpoint';
-import { DateQuery } from '../date-query';
 import { createCo2EmissionsSql } from './create-co2-emissions-sql';
 import { trimSql } from './trim-sql';
+import { Interval } from 'luxon';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Co2Http {
   constructor(private http: HttpClient) {}
-  get(dateQuery: DateQuery): Observable<CO2EmissionsRecords> {
+  get(interval: Interval): Observable<CO2EmissionsRecords> {
     // todo : remove new lines
-    const sql = trimSql(createCo2EmissionsSql(dateQuery));
+    const sql = trimSql(createCo2EmissionsSql(interval));
     return this.http
       .get<
         CkanResponseInterface<CO2EmissionsRecord> | CkanErrorResponseInterface

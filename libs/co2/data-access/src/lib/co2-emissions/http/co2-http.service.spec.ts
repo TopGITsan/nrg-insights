@@ -3,9 +3,9 @@ import { TestBed } from "@angular/core/testing";
 import { firstValueFrom } from "rxjs";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { nrgDataServiceEndpoint } from "./nrg-data-service-endpoint";
-import { CkanResponseInterface } from "./ckan-response.interface";
-import { CO2EmissionsRecord, CO2EmissionsRecords } from "./co2-record.interface";
+import { CO2EmissionsRecord } from "./co2-record.interface";
 import { CkanErrorResponseInterface } from "./ckan-error-response.interface";
+import { DateTime, Interval } from "luxon";
 
 
 
@@ -44,7 +44,7 @@ describe(Co2Http.name, () => {
       success: true,
     };
     // act
-    const whenResult = firstValueFrom(http.get({ from: new Date(), to: new Date() }));
+    const whenResult = firstValueFrom(http.get(Interval.fromDateTimes(DateTime.now(),DateTime.now())));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
@@ -84,7 +84,7 @@ describe(Co2Http.name, () => {
       success: true,
     };
     // act
-    const whenResult = firstValueFrom(http.get({ from: new Date(), to: new Date()}));
+    const whenResult = firstValueFrom(http.get(Interval.fromDateTimes(DateTime.now(),DateTime.now())));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
@@ -109,7 +109,7 @@ describe(Co2Http.name, () => {
       success: false,
     };
     // act
-    const whenErrorResponse = firstValueFrom(http.get({ from: new Date(), to: new Date() }));
+    const whenErrorResponse = firstValueFrom(http.get(Interval.fromDateTimes(DateTime.now(),DateTime.now())));
     // tell the mock the expectations after you call it
     const testRequest = controller.expectOne(
       request =>
