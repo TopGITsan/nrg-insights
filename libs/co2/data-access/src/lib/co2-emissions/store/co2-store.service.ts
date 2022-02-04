@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 import { DateTime, Duration, Interval } from 'luxon';
-import { combineLatest, Observable, switchMap, timer } from 'rxjs';
+import { combineLatest, map, Observable, switchMap, timer } from 'rxjs';
 import { DanishDateStore } from '@nrg-insights/shared/util-date-time';
 import { Co2Http } from '../http/co2-http.service';
 import {
@@ -35,12 +35,16 @@ export class Co2Store extends ComponentStore<Co2State> {
 
   private loadRecordsEveryMinute = this.effect<DateTime>(danishToday$ =>
     combineLatest([danishToday$, timer(0, 60 * 1000)]).pipe(
-      switchMap(([day]) =>
-        this.co2http.get(Interval.fromDateTimes(day, day.plus(twoDays))).pipe(
+      map(([danishToday]) =>
+        Interval.fromDateTimes(danishToday, danishToday.plus(twoDays))
+      ),
+      switchMap(interval =>
+        this.co2http.get(interval).pipe(
           tapResponse(
             records => this.updateRecords(records),
             // or using partial updater => no central updater as updateRecords
             // records => this.patchState({records}),
+
             () => this.updateRecords([])
           )
         )
