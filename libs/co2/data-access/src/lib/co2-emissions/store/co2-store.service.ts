@@ -7,7 +7,7 @@ import {
   CO2EmissionsRecord,
   CO2EmissionsRecords,
 } from '../http/co2-record.interface';
-import { createCo2ForecastDateQuery } from './create-co2-forecast-date-query';
+import { createCo2ForecastInterval } from './create-co2-forecast-date-query';
 
 interface Co2State {
   readonly interval: Interval;
@@ -59,7 +59,7 @@ export class Co2Store extends ComponentStore<Co2State> {
 
 function createInitialState(now: DateTime): Co2State {
   return {
-    interval: createCo2ForecastDateQuery(now),
+    interval: createCo2ForecastInterval(now),
     records: [],
   };
 }
