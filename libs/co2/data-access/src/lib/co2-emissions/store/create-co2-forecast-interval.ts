@@ -1,8 +1,8 @@
 import { DateTime, Duration, Interval } from 'luxon';
-
+import { danishZone } from './danish-zone';
 export function createCo2ForecastInterval(now: DateTime): Interval {
-  const localToday = now.startOf('day');
-  const localDayAfterTomorrow = localToday.plus(Duration.fromISO('P2D'))
+  const danishToday = now.setZone(danishZone).startOf('day');
+  const danishDayAfterTomorrow = danishToday.plus(Duration.fromISO('P2D'));
 
-  return Interval.fromDateTimes(localToday,localDayAfterTomorrow);
+  return Interval.fromDateTimes(danishToday, danishDayAfterTomorrow);
 }
