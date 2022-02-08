@@ -9,7 +9,6 @@ import { Co2Items } from '../domain/co2-items.interface';
 
 const twoDays = Duration.fromISO('P2D');
 interface Co2State {
-  // readonly interval: Interval;
   readonly items: Co2Items;
 }
 
