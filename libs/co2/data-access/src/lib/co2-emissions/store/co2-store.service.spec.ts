@@ -1,15 +1,21 @@
 import { Co2Store } from './co2-store.service';
-import { TestBed } from '@angular/core/testing';
+import {
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { firstValueFrom, Observable, of, skip, take, throwError } from 'rxjs';
 import { Co2Http } from '../http/co2-http.service';
 import { CO2EmissionsRecords } from '../http/co2-record.interface';
+import { Interval } from 'luxon';
 
 describe(Co2Store.name, () => {
   function setup({
     httpGetSpy = jest.fn().mockReturnValue(of([])),
   }: {
-    readonly httpGetSpy?: jest.Mock<Observable<CO2EmissionsRecords>, []>;
+    readonly httpGetSpy?: jest.Mock<Observable<CO2EmissionsRecords>,[Interval]>;
   } = {}) {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -79,5 +85,27 @@ describe(Co2Store.name, () => {
       expect(httpGetSpy).toHaveBeenCalledTimes(1);
       expect(actualRecords).toEqual(expectedRecords);
     });
+
+    it('it requests data every minute', fakeAsync(() => {
+      // arrange
+      const httpGetSpy = jest
+        .fn<Observable<CO2EmissionsRecords>, [Interval]>()
+        .mockReturnValue(of([]));
+      const oneMinuteMs = 60 * 1000;
+      setup({ httpGetSpy });
+      // act
+      // initial effect
+      tick(1);
+      // after one minute
+      tick(oneMinuteMs);
+      // after three minutes
+      tick(oneMinuteMs);
+
+      // clean
+      discardPeriodicTasks();
+
+      // assert
+      expect(httpGetSpy).toHaveBeenCalledTimes(3);
+    }));
   });
 });
