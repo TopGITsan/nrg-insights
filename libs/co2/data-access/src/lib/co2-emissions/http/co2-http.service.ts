@@ -18,7 +18,6 @@ import { Interval } from 'luxon';
 export class Co2Http {
   constructor(private http: HttpClient) {}
   get(interval: Interval): Observable<CO2EmissionsRecords> {
-    // todo : remove new lines
     const sql = trimSql(createCo2EmissionsSql(interval));
     return this.http
       .get<
