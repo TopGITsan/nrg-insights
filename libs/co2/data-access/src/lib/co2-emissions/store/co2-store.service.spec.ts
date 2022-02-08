@@ -119,7 +119,9 @@ describe(Co2Store.name, () => {
       discardPeriodicTasks();
 
       // assert
-      expect(httpGetSpy).toHaveBeenCalledTimes(initialRequestCount + oneHourMinutes);
+      expect(httpGetSpy).toHaveBeenCalledTimes(
+        initialRequestCount + oneHourMinutes
+      );
     }));
   });
 });
