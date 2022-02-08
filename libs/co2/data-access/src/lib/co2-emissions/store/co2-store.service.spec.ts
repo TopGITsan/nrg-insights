@@ -6,7 +6,15 @@ import {
   tick,
 } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { firstValueFrom, Observable, of, skip, take, throwError } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+  of,
+  range,
+  skip,
+  take,
+  throwError,
+} from 'rxjs';
 import { Co2Http } from '../http/co2-http.service';
 import { CO2EmissionsRecords } from '../http/co2-record.interface';
 import { Interval } from 'luxon';
@@ -15,7 +23,10 @@ describe(Co2Store.name, () => {
   function setup({
     httpGetSpy = jest.fn().mockReturnValue(of([])),
   }: {
-    readonly httpGetSpy?: jest.Mock<Observable<CO2EmissionsRecords>,[Interval]>;
+    readonly httpGetSpy?: jest.Mock<
+      Observable<CO2EmissionsRecords>,
+      [Interval]
+    >;
   } = {}) {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -92,20 +103,23 @@ describe(Co2Store.name, () => {
         .fn<Observable<CO2EmissionsRecords>, [Interval]>()
         .mockReturnValue(of([]));
       const oneMinuteMs = 60 * 1000;
+      const oneHourMinutes = 60;
+      const initialRequestCount = 1;
       setup({ httpGetSpy });
+
       // act
       // initial effect
-      tick(1);
-      // after one minute
-      tick(oneMinuteMs);
-      // after three minutes
-      tick(oneMinuteMs);
+      tick(0);
+
+      range(initialRequestCount, oneHourMinutes).forEach(_ =>
+        tick(oneMinuteMs)
+      );
 
       // clean
       discardPeriodicTasks();
 
       // assert
-      expect(httpGetSpy).toHaveBeenCalledTimes(3);
+      expect(httpGetSpy).toHaveBeenCalledTimes(initialRequestCount + oneHourMinutes);
     }));
   });
 });
