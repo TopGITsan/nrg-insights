@@ -4,25 +4,20 @@ import { DateTime, Duration, Interval } from 'luxon';
 import { combineLatest, map, Observable, switchMap, timer } from 'rxjs';
 import { DanishDateStore } from '@nrg-insights/shared/util-date-time';
 import { Co2Http } from '../http/co2-http.service';
-import {
-  CO2EmissionsRecord,
-  CO2EmissionsRecords,
-} from '../http/co2-record.interface';
+import { Co2EmissionsResult } from '../http/co2-emissions-result-item.interface';
+import { Co2Items } from '../domain/co2-items.interface';
 
 const twoDays = Duration.fromISO('P2D');
 interface Co2State {
   // readonly interval: Interval;
-  readonly records: readonly CO2EmissionsRecord[];
+  readonly items: Co2Items;
 }
 
 @Injectable()
 export class Co2Store extends ComponentStore<Co2State> {
-  records$: Observable<CO2EmissionsRecords> = this.select(
-    state => state.records,
-    {
-      debounce: true,
-    }
-  );
+  items$: Observable<Co2EmissionsResult> = this.select(state => state.items, {
+    debounce: true,
+  });
 
   constructor(private co2http: Co2Http, danishDate: DanishDateStore) {
     super(initialState);
@@ -41,24 +36,24 @@ export class Co2Store extends ComponentStore<Co2State> {
       switchMap(interval =>
         this.co2http.get(interval).pipe(
           tapResponse(
-            records => this.updateRecords(records),
+            result => this.updateItems(result),
             // or using partial updater => no central updater as updateRecords
             // records => this.patchState({records}),
 
-            () => this.updateRecords([])
+            () => this.updateItems([])
           )
         )
       )
     )
   );
 
-  private updateRecords = this.updater<CO2EmissionsRecords>(
-    (state: Co2State, records): Co2State => {
-      return { ...state, records };
+  private updateItems = this.updater<Co2EmissionsResult>(
+    (state: Co2State, result): Co2State => {
+      return { ...state, items: result };
     }
   );
 }
 
 const initialState: Co2State = {
-  records: [],
+  items: [],
 };

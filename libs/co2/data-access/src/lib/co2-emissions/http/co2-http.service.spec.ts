@@ -6,7 +6,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { nrgDataServiceEndpoint } from './nrg-data-service-endpoint';
-import { CO2EmissionsRecord } from './co2-record.interface';
+import {
+  CO2EmissionsRecord,
+  CO2EmissionsRecords,
+} from './co2-record.interface';
 import { CkanErrorResponseInterface } from './ckan-error-response.interface';
 import { DateTime, Interval } from 'luxon';
 
@@ -28,9 +31,9 @@ describe(Co2Http.name, () => {
   let http: Co2Http;
   let controller: HttpTestingController;
 
-  it('maps response to records on success', async () => {
+  it('maps successfull response to items', async () => {
     // arrange
-    const records = [
+    const records: CO2EmissionsRecords = [
       {
         co2Emissions: 99,
         minutes5UTC: '2022-09-01T22:10:11+02:00',
@@ -61,7 +64,7 @@ describe(Co2Http.name, () => {
       expect.arrayContaining([
         expect.objectContaining({
           co2Emissions: expect.any(Number),
-          minutes5UTC: expect.any(Date),
+          minutes5UTC: expect.any(DateTime),
           priceArea: expect.any(String),
         }) as CO2EmissionsRecord,
       ])

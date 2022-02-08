@@ -16,17 +16,14 @@ import {
   throwError,
 } from 'rxjs';
 import { Co2Http } from '../http/co2-http.service';
-import { CO2EmissionsRecords } from '../http/co2-record.interface';
-import { Interval } from 'luxon';
+import { DateTime, Interval } from 'luxon';
+import { Co2EmissionsResult } from '../http/co2-emissions-result-item.interface';
 
 describe(Co2Store.name, () => {
   function setup({
     httpGetSpy = jest.fn().mockReturnValue(of([])),
   }: {
-    readonly httpGetSpy?: jest.Mock<
-      Observable<CO2EmissionsRecords>,
-      [Interval]
-    >;
+    readonly httpGetSpy?: jest.Mock<Observable<Co2EmissionsResult>, [Interval]>;
   } = {}) {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -49,58 +46,59 @@ describe(Co2Store.name, () => {
     expect(store).not.toBeNull();
   });
 
-  describe('records$', () => {
-    it('initialy emits records', async () => {
+  describe('items$', () => {
+    it('initialy emits 0 items', async () => {
       const { store } = setup();
-      const result = await firstValueFrom(store.records$);
+      const items = await firstValueFrom(store.items$);
 
-      expect(result).toEqual([]);
+      expect(items).toEqual([]);
     });
 
     it('imediatly emits records on successfull response from the CO2 emissions API', async () => {
       // arrange
-      const expectedRecords: CO2EmissionsRecords = [
+      const result: Co2EmissionsResult = [
         {
           co2Emissions: 99,
-          minutes5UTC: new Date('2022-01-12T11:09:01+02:00'),
+          minutes5UTC: DateTime.fromISO('2022-01-12T11:09:01+02:00'),
           priceArea: 'DK2',
         },
       ];
-      const httpGetSpy = jest.fn().mockReturnValue(of(expectedRecords));
+      const expectedItems = result;
+      const httpGetSpy = jest.fn().mockReturnValue(of(result));
 
       const { store } = setup({ httpGetSpy });
       // act
-      const actualRecords = await firstValueFrom(
-        store.records$.pipe(skip(1), take(1))
+      const actualItems = await firstValueFrom(
+        store.items$.pipe(skip(1), take(1))
       );
 
       // assert
       expect(httpGetSpy).toHaveBeenCalledTimes(1);
-      expect(actualRecords).toEqual(expectedRecords);
+      expect(actualItems).toEqual(expectedItems);
     });
 
     it('clears records on error response from the CO2 emissions API', async () => {
       // arrange
-      const expectedRecords: CO2EmissionsRecords = [];
+      const expectedItems: Co2EmissionsResult = [];
 
       const httpGetSpy = jest
         .fn()
         .mockReturnValue(throwError(() => new Error('CKAN Erro')));
       const { store } = setup({ httpGetSpy });
       // act
-      const actualRecords = await firstValueFrom(
-        store.records$.pipe(skip(1), take(1))
+      const actualItems = await firstValueFrom(
+        store.items$.pipe(skip(1), take(1))
       );
 
       // assert
       expect(httpGetSpy).toHaveBeenCalledTimes(1);
-      expect(actualRecords).toEqual(expectedRecords);
+      expect(actualItems).toEqual(expectedItems);
     });
 
     it('it requests data every minute', fakeAsync(() => {
       // arrange
       const httpGetSpy = jest
-        .fn<Observable<CO2EmissionsRecords>, [Interval]>()
+        .fn<Observable<Co2EmissionsResult>, [Interval]>()
         .mockReturnValue(of([]));
       const oneMinuteMs = 60 * 1000;
       const oneHourMinutes = 60;
