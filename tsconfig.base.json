@@ -15,7 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nrg-insights/root/environments": ["libs/root/environments/src/index.ts"]
+      "@nrg-insights/co2/data-access": ["libs/co2/data-access/src/index.ts"],
+      "@nrg-insights/root/environments": [
+        "libs/root/environments/src/index.ts"
+      ],
+      "@nrg-insights/shared/util-date-time": [
+        "libs/shared/util-date-time/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

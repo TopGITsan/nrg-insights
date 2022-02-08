@@ -99,5 +99,5 @@
     }
   },
   "tags": ["type:app"],
-  "implicitDependencies": ["root-assets","root-styles"]
+  "implicitDependencies": ["root-assets", "root-styles"]
 }
