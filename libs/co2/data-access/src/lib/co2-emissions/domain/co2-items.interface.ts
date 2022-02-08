@@ -7,3 +7,5 @@ export interface Co2DataPoint {
 }
 
 export type Co2Items = readonly Co2DataPoint[];
+
+// todo : domain types should be in domain libraries
