@@ -22,12 +22,14 @@ import { Co2ForecastScam } from './co2-forecast.sfc';
       }
     `,
   ],
-  template: ` <nrg-co2-forecast-ui [forecast]="forecast$ | async"></nrg-co2-forecast-ui> `,
+  template: `
+    <nrg-co2-forecast-ui [forecast]="forecast$ | async"></nrg-co2-forecast-ui>
+  `,
 })
 export class Co2ForecastContainerComponent {
   #co2Store: Co2Store;
   forecast$: Observable<Co2Items>;
-  constructor(co2Store: Co2Store){
+  constructor(co2Store: Co2Store) {
     this.#co2Store = co2Store;
     this.forecast$ = this.#co2Store.items$;
   }
