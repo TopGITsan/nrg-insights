@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'nrg-forecast',
+  selector: 'nrg-co2-forecast',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   styles: [
@@ -17,13 +17,13 @@ import {
       }
     `,
   ],
-  template: ``,
+  template: ` <div>today's forecast 105 co2</div> `,
 })
 export class Co2ForecastContainerComponent {}
 
 @NgModule({
   declarations: [Co2ForecastContainerComponent],
   exports: [Co2ForecastContainerComponent],
-  imports: [CommonModule]
+  imports: [CommonModule],
 })
 export class Co2ForecastContainerScam {}
