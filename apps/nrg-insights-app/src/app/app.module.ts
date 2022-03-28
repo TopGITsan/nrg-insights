@@ -1,10 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent, AppScam } from './app.sfc';
 
-
 @NgModule({
-  imports: [BrowserModule, AppScam],
+  imports: [BrowserModule, HttpClientModule, AppScam],
   providers: [],
   bootstrap: [AppComponent],
 })

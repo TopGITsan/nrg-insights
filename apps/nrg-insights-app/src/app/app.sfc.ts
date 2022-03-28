@@ -5,8 +5,8 @@ import { NxWelcomeComponent } from './nx-welcome.component';
 @Component({
   selector: 'nrg-root',
   template: `
-  <nrg-co2-forecast></nrg-co2-forecast>
-  <nrg-nx-welcome></nrg-nx-welcome>
+    <nrg-co2-forecast></nrg-co2-forecast>
+    <nrg-nx-welcome></nrg-nx-welcome>
   `,
   styles: [],
 })
@@ -14,9 +14,8 @@ export class AppComponent {
   title = 'Learning';
 }
 
-
 @NgModule({
   declarations: [AppComponent, NxWelcomeComponent],
-  imports: [Co2FeatureForecastModule]
+  imports: [Co2FeatureForecastModule],
 })
 export class AppScam {}
