@@ -5,7 +5,7 @@ import { combineLatest, map, Observable, switchMap, timer } from 'rxjs';
 import { DanishDateStore } from '@nrg-insights/shared/util-date-time';
 import { Co2Http } from '../http/co2-http.service';
 import { Co2EmissionsResult } from '../http/co2-emissions-result-item.interface';
-import { Co2Items } from '../domain/co2-items.interface';
+import { Co2Items } from '@nrg-insights/co2/domain';
 
 const twoDays = Duration.fromISO('P2D');
 interface Co2State {
