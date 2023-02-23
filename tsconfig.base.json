@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@nrg-insights/co2/data-access": ["libs/co2/data-access/src/index.ts"],
+      "@nrg-insights/event-bus": ["libs/event-bus/src/index.ts"],
       "@nrg-insights/root/environments": [
         "libs/root/environments/src/index.ts"
       ],

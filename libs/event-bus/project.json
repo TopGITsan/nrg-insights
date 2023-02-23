@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/event-bus",
+  "sourceRoot": "libs/event-bus/src",
+  "prefix": "top",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/event-bus"],
+      "options": {
+        "jestConfig": "libs/event-bus/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/event-bus/src/**/*.ts",
+          "libs/event-bus/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["eda", "global"]
+}
